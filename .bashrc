@@ -1,12 +1,13 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
       *) return;;
 esac
-set -o ignoreeof
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -27,7 +28,7 @@ shopt -s checkwinsize
 #shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
@@ -70,6 +71,24 @@ xterm*|rxvt*)
 *)
     ;;
 esac
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# some more ls aliases
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -CF'
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -89,3 +108,32 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+# add Android SDK Tools to the path
+export ANDROID_SDK=~/utils/android-sdk-linux
+export PATH=$PATH:$ANDROID_SDK/tools:$ANDROID_SDK/platform-tools
+
+# add other custom utilities to the path
+export PATH=$PATH:~/utils/bin
+
+# set up debugging paths
+export PATH=$PATH:/home/w4118/utils/android-ndk-r12b/prebuilt/android-arm64/gdbserver/:/home/w4118/utils/android-ndk-r12b/prebuilt/linux-x86_64/bin/
+
+
+# add toolchain to the path
+export PATH=$PATH:~/utils/arm-2013.11/bin:~/utils/android-ndk-r12b/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64/bin:~/utils/android-ndk-r12b/prebuilt/android-arm64/
+
+export A24_INCLUDE=~/utils/android-ndk-r12b/platforms/android-24/arch-arm64/usr/include/
+export A24_LINK=~/utils/android-ndk-r12b/platforms/android-24/arch-arm64/usr/lib/
+export A24_SYSROOT=~/utils/android-ndk-r12b/platforms/android-24/arch-arm64/
+
+
+export A23_INCLUDE=~/utils/android-ndk-r12b/platforms/android-23/arch-arm64/usr/include/
+export A23_LINK=~/utils/android-ndk-r12b/platforms/android-23/arch-arm64/usr/lib/
+export A23_SYSROOT=~/utils/android-ndk-r12b/platforms/android-23/arch-arm64/
+
+
+
+export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6
+export LIBGL_DEBUG=verbose
+export LIBGL_DRIVERS_PATH=/lib/modules/3.16.0-4-amd64/kernel/drivers/gpu/drm:/usr/lib/x86_64-linux-gnu/dri
